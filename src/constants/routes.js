@@ -1,0 +1,7 @@
+export const Landing = '/'
+export const SignUp = '/signup'
+export const SignIn = '/signin'
+export const Home = '/home'
+export const Account = '/account'
+export const Admin = '/admin'
+export const PasswordForget = '/pw-forget'
