@@ -106,7 +106,7 @@ class SignUpFormBase extends Component {
 }
 
 const SignUpLink = () => {
-  <p>Don't have an account? <Link to={Routes.SignUp}>Sign Up</Link></p>
+  return (<p>Don't have an account? <Link to={Routes.SignUp}>Sign Up</Link></p>)
 }
 
 const SignUpForm = compose(

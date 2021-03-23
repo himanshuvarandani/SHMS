@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+import SignOutButton from '../SignOut'
 import * as Routes from '../../constants/routes'
 
 const Navigation = () => {
@@ -21,6 +22,9 @@ const Navigation = () => {
         </li>
         <li>
           <Link to={Routes.Admin}>Admin</Link>
+        </li>
+        <li>
+          <SignOutButton />
         </li>
       </ul>
     </div>
