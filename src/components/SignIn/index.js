@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router'
 import { compose } from 'recompose'
+import { withRouter } from 'react-router'
 
-import { withFirebase } from '../Firebase'
+import { PasswordForgetLink } from '../PasswordForget'
 import { SignUpLink } from '../SignUp'
+import { withFirebase } from '../Firebase'
 import * as Routes from '../../constants/routes'
 
 const SignInPage = () => {
@@ -11,6 +12,7 @@ const SignInPage = () => {
     <div>
       <h1>SignIn</h1>
       <SignInForm />
+      <PasswordForgetLink />
       <SignUpLink />
     </div>
   )
@@ -42,7 +44,7 @@ class SignInFormBase extends Component {
         this.setState({ error })
       })
     
-      event.preventDefault()
+    event.preventDefault()
   }
 
   onChange = (event) => {
