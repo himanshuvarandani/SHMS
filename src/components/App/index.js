@@ -9,6 +9,7 @@ import Navigation from '../Navigation'
 import PasswordForgetPage from '../PasswordForget'
 import SignInPage from '../SignIn'
 import SignUpPage from '../SignUp'
+import { withAuthentication } from '../Session'
 
 import * as Routes from '../../constants/routes'
 
@@ -30,4 +31,4 @@ const App = () => (
   </Router>
 )
 
-export default App
+export default withAuthentication(App)
