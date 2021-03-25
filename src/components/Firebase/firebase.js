@@ -1,6 +1,7 @@
 import app from 'firebase/app'
-import 'firebase/auth'
 import dotenv from 'dotenv'
+import 'firebase/auth'
+import 'firebase/database'
 
 dotenv.config()
 
@@ -18,7 +19,28 @@ class Firebase {
     app.initializeApp(config)
 
     this.auth = app.auth()
+    this.db = app.database()
   }
+
+
+  // Auth API
+  
+  doCreateUserWithEmailAndPassword = (email, password) => this.auth.createUserWithEmailAndPassword(email, password)
+
+  doSignInWithEmailAndPassword = (email, password) => this.auth.signInWithEmailAndPassword(email, password)
+
+  doSignOut = () => this.auth.signOut()
+
+  doSendPasswordResetEmail = (email) => this.auth.sendPasswordResetEmail(email)
+
+  doUpdatePassword = (passwordOne) => this.auth.currentUser.updatePassword(passwordOne)
+
+
+  // User API
+
+  user = (uid) => this.db.ref('users/' + uid)
+
+  users = () => this.db.ref('users')
 }
 
 export default Firebase

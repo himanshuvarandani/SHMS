@@ -6,14 +6,10 @@ class SignOutButton extends Component {
   constructor(props) {
     super(props)
   }
-  
-  onClick = () => {
-    this.props.firebase.auth.signOut()
-  }
 
   render() {
     return (
-      <button type="button" onClick={this.onClick}>
+      <button type="button" onClick={() => this.props.firebase.doSignOut()}>
         Sign Out
       </button>
     )

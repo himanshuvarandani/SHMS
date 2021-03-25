@@ -19,6 +19,7 @@ const initialState = {
   email: '',
   passwordOne: '',
   passwordTwo: '',
+  type: 'Patient',
   error: null,
 }
 
@@ -30,15 +31,24 @@ class SignUpFormBase extends Component {
   }
 
   onSubmit = (event) => {
-    const { email, passwordOne } = this.state
+    const { username, email, passwordOne, type } = this.state
 
-    this.props.firebase.auth
-      .createUserWithEmailAndPassword(email, passwordOne)
+    this.props.firebase
+      .doCreateUserWithEmailAndPassword(email, passwordOne)
+      .then((authUser) => {
+        return this.props.firebase
+          .user(authUser.user.uid)
+          .set({
+            username,
+            email,
+            type,
+          })
+      })
       .then((authUser) => {
         this.setState({ ...initialState })
         this.props.history.push(Routes.Home)
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
         this.setState({ error })
       })
@@ -56,6 +66,7 @@ class SignUpFormBase extends Component {
       email,
       passwordOne,
       passwordTwo,
+      type,
       error,
     } = this.state
 
@@ -95,6 +106,14 @@ class SignUpFormBase extends Component {
           type="text"
           placeholder="Confirm Password"
         />
+        <select
+          name="type"
+          value={type}
+          onChange={this.onChange}
+        >
+          <option value="Patient">Patient</option>
+          <option value="Doctor">Doctor</option>
+        </select>
         <button disabled={isInvalid} type="submit">
           Sign Up
         </button>
