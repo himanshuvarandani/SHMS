@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { compose } from 'recompose'
 
+import { withAuthorization } from '../Session'
 import { withFirebase } from '../Firebase'
+
 import * as Routes from '../../constants/routes'
 
 const SignUpPage = () => {
@@ -46,10 +48,14 @@ class SignUpFormBase extends Component {
       })
       .then((authUser) => {
         this.setState({ ...initialState })
-        this.props.history.push(Routes.Home)
+        
+        if (type === "Doctor") {
+          this.props.history.push(Routes.Doctor+"/"+authUser.user.uid)
+        } else {
+          this.props.history.push(Routes.Patient+"/"+authUser.user.uid)
+        }
       })
       .catch((error) => {
-        console.log(error)
         this.setState({ error })
       })
     
@@ -128,10 +134,13 @@ const SignUpLink = () => {
   return (<p>Don't have an account? <Link to={Routes.SignUp}>Sign Up</Link></p>)
 }
 
+const condition = (authUser) => !authUser
+
 const SignUpForm = compose(
-    withRouter,
-    withFirebase
-  )(SignUpFormBase)
+  withAuthorization(condition),
+  withRouter,
+  withFirebase
+)(SignUpFormBase)
 
 export default SignUpPage
 

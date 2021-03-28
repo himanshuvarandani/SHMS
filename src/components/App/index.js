@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import AccountPage from '../Account'
 import AdminPage from '../Admin'
-import HomePage from '../Home'
+import DoctorPage from '../Doctor'
 import LandingPage from '../Landing'
 import Navigation from '../Navigation'
+import PatientPage from '../Patient'
 import PasswordForgetPage from '../PasswordForget'
 import SignInPage from '../SignIn'
 import SignUpPage from '../SignUp'
@@ -16,12 +17,13 @@ import * as Routes from '../../constants/routes'
 const App = () => (
   <Router>
     <div>
-      <Navigation />
+      <Navigation/>
 
       <hr />
 
       <Route exact path={Routes.Landing} component={LandingPage} />
-      <Route path={Routes.Home} component={HomePage} />
+      <Route path={Routes.Doctor+"/:uid"} component={DoctorPage} />
+      <Route path={Routes.Patient+"/:uid"} component={PatientPage} />
       <Route path={Routes.SignIn} component={SignInPage} />
       <Route path={Routes.SignUp} component={SignUpPage} />
       <Route path={Routes.PasswordForget} component={PasswordForgetPage} />

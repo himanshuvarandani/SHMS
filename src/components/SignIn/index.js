@@ -4,7 +4,9 @@ import { withRouter } from 'react-router'
 
 import { PasswordForgetLink } from '../PasswordForget'
 import { SignUpLink } from '../SignUp'
+import { withAuthorization } from '../Session'
 import { withFirebase } from '../Firebase'
+
 import * as Routes from '../../constants/routes'
 
 const SignInPage = () => {
@@ -36,9 +38,25 @@ class SignInFormBase extends Component {
 
     this.props.firebase
       .doSignInWithEmailAndPassword(email, password)
-      .then(() => {
+      .then((authUser) => {
         this.setState({ ...initialState })
-        this.props.history.push(Routes.Home)
+        this.props.firebase
+          .user(authUser.user.uid)
+          .once('value')
+          .then((snapshot) => {
+            if (snapshot.val()) {
+              if (snapshot.val().type === "Doctor") {
+                this.props.history.push(Routes.Doctor+"/"+authUser.user.uid)
+              } else {
+                this.props.history.push(Routes.Patient+"/"+authUser.user.uid)
+              }
+            } else {
+              this.setState({ error: "Some error occured, try Sign In again." })
+            }
+          })
+          .catch((error) => {
+            this.setState({ error })
+          })
       })
       .catch((error) => {
         this.setState({ error })
@@ -82,7 +100,10 @@ class SignInFormBase extends Component {
   }
 }
 
+const condition = (authUser) => !authUser
+
 const SignInForm = compose(
+  withAuthorization(condition),
   withRouter,
   withFirebase,
 )(SignInFormBase)
