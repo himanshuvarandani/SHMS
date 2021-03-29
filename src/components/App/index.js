@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import AccountPage from '../Account'
 import AdminPage from '../Admin'
 import DoctorPage from '../Doctor'
+import ErrorPage from '../Error'
 import LandingPage from '../Landing'
 import Navigation from '../Navigation'
 import PatientPage from '../Patient'
@@ -29,6 +30,7 @@ const App = () => (
       <Route path={Routes.PasswordForget} component={PasswordForgetPage} />
       <Route path={Routes.Account} component={AccountPage} />
       <Route path={Routes.Admin} component={AdminPage} />
+      <Route path={Routes.Error} component={ErrorPage} />
     </div>
   </Router>
 )

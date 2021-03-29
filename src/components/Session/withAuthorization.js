@@ -17,6 +17,42 @@ const withAuthorization = (condition) => (Component) => {
             } else {
               this.props.history.push(Routes.SignIn)
             }
+          } else if (this.props.match.path === "/doctor/:uid") {
+            this.props.firebase
+              .user(authUser.uid)
+              .once("value")
+              .then((snapshot) => {
+                if (snapshot.val()) {
+                  if (snapshot.val().type === "Patient") {
+                    this.props.history.push(Routes.Error)
+                  } else if (this.props.match.params.uid !== authUser.uid) {
+                    this.props.history.push(Routes.Error)
+                  }
+                } else {
+                  this.props.history.push(Routes.Error)
+                }
+              })
+          } else if (this.props.match.path === "/patient/:uid") {
+            this.props.firebase
+              .user(authUser.uid)
+              .once("value")
+              .then((snapshot) => {
+                if (snapshot.val()) {
+                  if (snapshot.val().type === "Doctor") {
+                    if (snapshot.val().patients) {
+                      if (!snapshot.val().patients[this.props.match.params.uid]) {
+                        this.props.history.push(Routes.Error)
+                      }
+                    } else {
+                      this.props.history.push(Routes.Error)
+                    }
+                  } else if (this.props.match.params.uid !== authUser.uid) {
+                    this.props.history.push(Routes.Error)
+                  }
+                } else {
+                  this.props.history.push(Routes.Error)
+                } 
+              })
           }
         }
       )
