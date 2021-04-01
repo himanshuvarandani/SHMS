@@ -20,8 +20,6 @@ const App = () => (
     <div>
       <Navigation/>
 
-      <hr />
-
       <Route exact path={Routes.Landing} component={LandingPage} />
       <Route path={Routes.Doctor+"/:uid"} component={DoctorPage} />
       <Route path={Routes.Patient+"/:uid"} component={PatientPage} />
