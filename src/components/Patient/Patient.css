@@ -1,0 +1,30 @@
+.patient h1 {
+  font-size: 55px;
+  color: rgb(209, 239, 253);
+}
+
+.patient .readings {
+  background-color: white;
+  padding: 15px;
+  border-radius: 15px;
+}
+
+.patient .headings {
+  text-align: end;
+}
+
+.patient h5 {
+  color: rgb(209, 239, 253);
+  font-size: 25px;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: rgb(56, 53, 56);
+}
+
+.patient .react-calendar__month-view__days__day--weekend {
+  color: #000;
+}
+
+.patient .react-calendar__month-view__days__day--neighboringMonth {
+  color: #757575;
+}
+
