@@ -2,16 +2,22 @@ import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { compose } from 'recompose'
 
+import './SignUp.css'
+
 import { withAuthorization } from '../Session'
+import { SignInLink } from '../SignIn'
 import { withFirebase } from '../Firebase'
 
 import * as Routes from '../../constants/routes'
 
 const SignUpPage = () => {
   return (
-    <div>
-      <h1>Sign Up</h1>
+    <div className="sign-up">
+      <br />
+      <h1 className="text-center">Sign Up</h1>
+      <br />
       <SignUpForm />
+      <SignInLink />
     </div>
   )
 }
@@ -41,9 +47,9 @@ class SignUpFormBase extends Component {
         return this.props.firebase
           .user(authUser.user.uid)
           .set({
-            username,
-            email,
-            type,
+            "username": username,
+            "email": email,
+            "type": type,
           })
       })
       .then((authUser) => {
@@ -84,54 +90,85 @@ class SignUpFormBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <input
-          name="username"
-          value={username}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Full Name"
-        />
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="passwordOne"
-          value={passwordOne}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Password"
-        />
-        <input
-          name="passwordTwo"
-          value={passwordTwo}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Confirm Password"
-        />
-        <select
-          name="type"
-          value={type}
-          onChange={this.onChange}
-        >
-          <option value="Patient">Patient</option>
-          <option value="Doctor">Doctor</option>
-        </select>
-        <button disabled={isInvalid} type="submit">
-          Sign Up
-        </button>
-
-        {error && <p>{error.message}</p>}
+        <div className="form-group row justify-content-center">
+          <label htmlFor="username" className="col-md-2 col-form-label">Username</label>
+          <input
+            id="username"
+            name="username"
+            className="col-md-4 ml-4 mr-4 form-control"
+            value={username}
+            onChange={this.onChange}
+            type="text"
+            placeholder="Full Name"
+          />
+        </div>
+        <div className="form-group row justify-content-center">
+          <label htmlFor="email" className="col-md-2 col-form-label">Email</label>
+          <input
+            id="email"
+            name="email"
+            className="col-md-4 ml-4 mr-4 form-control"
+            value={email}
+            onChange={this.onChange}
+            type="text"
+            placeholder="Email Address"
+          />
+        </div>
+        <div className="form-group row justify-content-center">
+          <label htmlFor="passwordOne" className="col-md-2 col-form-label">Password</label>
+          <input
+            id="passwordOne"
+            name="passwordOne"
+            className="col-md-4 ml-4 mr-4 form-control"
+            value={passwordOne}
+            onChange={this.onChange}
+            type="text"
+            placeholder="Password"
+          />
+        </div>
+        <div className="form-group row justify-content-center">
+          <label htmlFor="passwordTwo" className="col-md-2 col-form-label">Confirm Password</label>
+          <input
+            id="passwordTwo"
+            name="passwordTwo"
+            className="col-md-4 ml-4 mr-4 form-control"
+            value={passwordTwo}
+            onChange={this.onChange}
+            type="text"
+            placeholder="Confirm Password"
+          />
+        </div>
+        <div className="form-group row justify-content-center">
+          <label htmlFor="type" className="col-md-2 col-form-label">Select Type</label>
+          <select
+            id="type"
+            name="type"
+            className="col-md-4 ml-4 mr-4 form-control"
+            value={type}
+            onChange={this.onChange}
+          >
+            <option value="Patient">Patient</option>
+            <option value="Doctor">Doctor</option>
+          </select>
+        </div>
+        <div className="d-flex flex-column align-items-center">
+          <button disabled={isInvalid} type="submit" className="btn btn-primary">
+            Sign Up
+          </button>
+          <br />
+          {error && <p className="alert alert-danger">{error.message}</p>}
+        </div>
       </form>
     )
   }
 }
 
 const SignUpLink = () => {
-  return (<p>Don't have an account? <Link to={Routes.SignUp}>Sign Up</Link></p>)
+  return (
+    <p className="sign-up-link">
+      Don't have an account? <Link to={Routes.SignUp}>Sign Up</Link>
+    </p>
+  )
 }
 
 const condition = (authUser) => !authUser

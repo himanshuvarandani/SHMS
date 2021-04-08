@@ -1,13 +1,17 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
+import './PasswordForget.css'
+
 import { withFirebase } from '../Firebase'
 import * as Routes from '../../constants/routes'
 
 const PasswordForgetPage = () => {
   return (
-    <div>
-      <h1>PasswordForget</h1>
+    <div className="container pw-forget">
+      <br />
+      <h1 className="text-center">Forget Password</h1>
+      <br />
       <PasswordForgetForm />
     </div>
   )
@@ -50,27 +54,32 @@ class PasswordForgetFormBase extends Component {
     const isInvalid = email === ''
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email"
-        />
-        <button disabled={isInvalid} type="submit">
-          Reset Password
-        </button>
+      <div className="d-flex flex-column align-items-center">
+        <form onSubmit={this.onSubmit}>
+          <input
+            className="form-control"
+            name="email"
+            value={email}
+            onChange={this.onChange}
+            type="text"
+            placeholder="Email"
+          />
+          <br />
+          <button disabled={isInvalid} type="submit" className="btn btn-primary ml-5 mr-5">
+            Reset Password
+          </button>
+        </form>
 
-        { error && <p>{error.message}</p>}
-      </form>
+        <br />
+        { error && <p className="alert alert-danger">{error.message}</p>}
+      </div>
     )
   }
 }
 
 const PasswordForgetLink = () => {
   return (
-    <p>
+    <p className="pw-forget-link">
       <Link to={Routes.PasswordForget}>Forget Password</Link>
     </p>
   )

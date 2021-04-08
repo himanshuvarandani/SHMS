@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import { Link, withRouter } from 'react-router-dom'
 import { compose } from 'recompose'
-import { withRouter } from 'react-router'
+
+import './SignIn.css'
 
 import { PasswordForgetLink } from '../PasswordForget'
 import { SignUpLink } from '../SignUp'
@@ -11,8 +13,10 @@ import * as Routes from '../../constants/routes'
 
 const SignInPage = () => {
   return (
-    <div>
-      <h1>SignIn</h1>
+    <div className="container sign-in">
+      <br />
+      <h1 className="text-center">SignIn</h1>
+      <br />
       <SignInForm />
       <PasswordForgetLink />
       <SignUpLink />
@@ -76,28 +80,48 @@ class SignInFormBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="password"
-          value={password}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Sign In
-        </button>
-
-        { error && <p>{ error.message }</p>}
+        <div className="form-group row justify-content-center">
+          <label htmlFor="email" className="col-md-2 col-form-label">Email</label>
+          <input
+            id="email"
+            name="email"
+            className="col-md-4 ml-4 mr-4 form-control"
+            value={email}
+            onChange={this.onChange}
+            type="text"
+            placeholder="Email Address"
+          />
+        </div>
+        <div className="form-group row justify-content-center">
+          <label htmlFor="password" className="col-md-2 col-form-label">Password</label>
+          <input
+            id="password"
+            name="password"
+            className="col-md-4 ml-4 mr-4 form-control"
+            value={password}
+            onChange={this.onChange}
+            type="text"
+            placeholder="Password"
+          />
+        </div>
+        <div className="d-flex flex-column align-items-center">
+          <button disabled={isInvalid} type="submit" className="btn btn-primary">
+            Sign In
+          </button>
+          <br />
+          { error && <p className="alert alert-danger">{ error.message }</p>}
+        </div>
       </form>
     )
   }
+}
+
+const SignInLink = () => {
+  return (
+    <p className="sign-in-link">
+      Already have an account? <Link to={Routes.SignIn}>Sign In</Link>
+    </p>
+  )
 }
 
 const condition = (authUser) => !authUser
@@ -110,4 +134,4 @@ const SignInForm = compose(
 
 export default SignInPage
 
-export { SignInForm }
+export { SignInLink, SignInForm }
