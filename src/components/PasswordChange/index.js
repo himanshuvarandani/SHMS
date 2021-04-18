@@ -40,27 +40,40 @@ class PasswordChangeForm extends Component {
     const isInvalid = passwordOne === '' || passwordTwo !== passwordOne
 
     return(
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="passwordOne"
-          value={passwordOne}
-          onChange={this.onChange}
-          type="text"
-          placeholder="New Password"
-        />
-        <input
-          name="passwordTwo"
-          value={passwordTwo}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Confirm New Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Reset Password
-        </button>
+      <div className="d-flex flex-column align-items-center">
+        <form onSubmit={this.onSubmit}>
+          <div className="d-flex flex-column flex-sm-row align-items-center">
+            <div className="m-2">
+              <input
+                className="form-control"
+                name="passwordOne"
+                value={passwordOne}
+                onChange={this.onChange}
+                type="text"
+                placeholder="New Password"
+              />
+            </div>
+            <div className="m-2">
+              <input
+                className="form-control"
+                name="passwordTwo"
+                value={passwordTwo}
+                onChange={this.onChange}
+                type="text"
+                placeholder="Confirm New Password"
+              />
+            </div>
+            <div className="m-2">
+              <button disabled={isInvalid} type="submit" className="btn btn-primary">
+                Reset Password
+              </button>
+            </div>
+          </div>
+        </form>
 
+        <br />
         { error && <p>{ error.message }</p>}
-      </form>
+      </div>
     )
   }
 }

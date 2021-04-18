@@ -26,7 +26,7 @@ const App = () => (
       <Route path={Routes.SignIn} component={SignInPage} />
       <Route path={Routes.SignUp} component={SignUpPage} />
       <Route path={Routes.PasswordForget} component={PasswordForgetPage} />
-      <Route path={Routes.Account} component={AccountPage} />
+      <Route path={Routes.Account+"/:uid"} component={AccountPage} />
       <Route path={Routes.Admin} component={AdminPage} />
       <Route path={Routes.Error} component={ErrorPage} />
     </div>

@@ -26,7 +26,7 @@ const NavigationAuth = (props) => {
           ) : (
             <Nav.Link href={Routes.Patient+"/"+props.uid}>Home</Nav.Link>
           )}
-          <Nav.Link href={Routes.Account}>Account</Nav.Link>
+          <Nav.Link href={Routes.Account+"/"+props.uid}>Account</Nav.Link>
         </Nav>
         <Nav>
           <Nav.Link onClick={() => props.firebase.doSignOut()}>Sign Out</Nav.Link>

@@ -57,7 +57,7 @@ class PasswordForgetFormBase extends Component {
       <div className="d-flex flex-column align-items-center">
         <form onSubmit={this.onSubmit}>
           <div className="d-flex flex-column flex-sm-row align-items-center">
-            <div className="mt-2 ml-2 mr-2">
+            <div className="m-2">
               <input
                 className="form-control"
                 name="email"
@@ -67,7 +67,7 @@ class PasswordForgetFormBase extends Component {
                 placeholder="Email"
               />
             </div>
-            <div className="mt-2 ml-2 mr-2">
+            <div className="m-2">
               <button disabled={isInvalid} type="submit" className="btn btn-primary">
                 Reset Password
               </button>
