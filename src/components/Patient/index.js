@@ -25,19 +25,57 @@ const PatientPageBase = (props) => {
   const [colorsBPM, setColorsBPM] = React.useState("blue")
   const [colorsBodyTemp, setColorsBodyTemp] = React.useState("blue")
 
-  React.useEffect(() => {
-    setToday(formatDate(new Date()))
+  const setCurrentReadings = (user) => {
+    if (today !== formatDate(new Date())) {
+      setToday(formatDate(new Date()))
+      setBPM("")
+      setRoomTemp("")
+      setHumidity("")
+      setBodyTemp("")
+    }
+
     if (user.readings) {
       if (user.readings.BPM) {
         if (user.readings.BPM[today]) {
-          setBPM("")
           Object.keys(user.readings.BPM[today]).forEach((key) => {
             if (Number(key.replaceAll(':', '')) > Number(BPM.replaceAll(':', ''))) {
               setBPM(key)
             }
           })
         }
-      
+      }
+    
+      if ( user.readings["Room Temp"] && user.readings["Room Temp"][today]) {
+        Object.keys(user.readings["Room Temp"][today]).forEach((key) => {
+          if (Number(key.replaceAll(':', '')) > Number(RoomTemp.replaceAll(':', ''))) {
+            setRoomTemp(key)
+          }
+        })
+      }
+
+      if ( user.readings.Humidity && user.readings.Humidity[today]) {
+        Object.keys(user.readings.Humidity[today]).forEach((key) => {
+          if (Number(key.replaceAll(':', '')) > Number(Humidity.replaceAll(':', ''))) {
+            setHumidity(key)
+          }
+        })
+      }
+
+      if (user.readings["Body Temp"]) {
+        if (user.readings["Body Temp"][today]) {
+          Object.keys(user.readings["Body Temp"][today]).forEach((key) => {
+            if (Number(key.replaceAll(':', '')) > Number(BodyTemp.replaceAll(':', ''))) {
+              setBodyTemp(key)
+            }
+          })
+        }
+      }
+    }
+  }
+
+  const setColors = (user) => {
+    if (user.readings) {
+      if (user.readings.BPM) {
         if (user.readings.BPM[date]) {
           setColorsBPM([])
           Object.keys(user.readings.BPM[date]).forEach((key) => {
@@ -49,35 +87,8 @@ const PatientPageBase = (props) => {
           })
         }
       }
-    
-      if ( user.readings["Room Temp"] && user.readings["Room Temp"][today]) {
-        setRoomTemp("")
-        Object.keys(user.readings["Room Temp"][today]).forEach((key) => {
-          if (Number(key.replaceAll(':', '')) > Number(RoomTemp.replaceAll(':', ''))) {
-            setRoomTemp(key)
-          }
-        })
-      }
-
-      if ( user.readings.Humidity && user.readings.Humidity[today]) {
-        setHumidity("")
-        Object.keys(user.readings.Humidity[today]).forEach((key) => {
-          if (Number(key.replaceAll(':', '')) > Number(Humidity.replaceAll(':', ''))) {
-            setHumidity(key)
-          }
-        })
-      }
 
       if (user.readings["Body Temp"]) {
-        if (user.readings["Body Temp"][today]) {
-          setBodyTemp("")
-          Object.keys(user.readings["Body Temp"][today]).forEach((key) => {
-            if (Number(key.replaceAll(':', '')) > Number(BodyTemp.replaceAll(':', ''))) {
-              setBodyTemp(key)
-            }
-          })
-        }
-      
         if (user.readings["Body Temp"][date]) {
           setColorsBodyTemp([])
           Object.keys(user.readings["Body Temp"][date]).forEach((key) => {
@@ -90,7 +101,9 @@ const PatientPageBase = (props) => {
         }
       }
     }
+  }
 
+  React.useEffect(() => {
     if (window.innerWidth > 600) {
       setWidth(0.8*window.innerWidth)
       setHeight(0.4*window.innerWidth)
@@ -101,12 +114,13 @@ const PatientPageBase = (props) => {
     
     props.firebase
       .user(props.match.params.uid)
-      .once("value")
-      .then((snapshot) => {
+      .once("value", (snapshot) => {
         setUser(snapshot.val())
+        setCurrentReadings(snapshot.val())
+        setColors(snapshot.val())
         setLoading(false)
       })
-  }, [date, today])
+  }, [date])
 
   const onChangeDate = (date) => {
     setDate(formatDate(date))
