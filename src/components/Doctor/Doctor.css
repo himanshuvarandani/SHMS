@@ -1,0 +1,32 @@
+.doctor h1 {
+  font-size: 55px;
+  color: rgb(209, 239, 253);
+}
+
+.doctor h5 {
+  color: rgb(116, 189, 223);
+  font-size: 25px;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: rgb(122, 85, 5);
+}
+
+.doctor p {
+  font-size: 18px;
+  color: rgb(77, 73, 75);
+}
+
+.doctor .card {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 15px;
+  text-align: center;
+  padding-top: 10px;
+  background-color: rgb(209, 239, 253);
+  margin: 10px;
+  border: 4px solid white;
+}
+
+.doctor .card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
