@@ -22,19 +22,34 @@ const PatientPageBase = (props) => {
   const [BodyTemp, setBodyTemp] = React.useState("")
   const [width, setWidth] = React.useState()
   const [height, setHeight] = React.useState()
+  const [colorsBPM, setColorsBPM] = React.useState("blue")
+  const [colorsBodyTemp, setColorsBodyTemp] = React.useState("blue")
 
   React.useEffect(() => {
     setToday(formatDate(new Date()))
     if (user.readings) {
-      if ( user.readings.BPM && user.readings.BPM[today]) {
-        setBPM("")
-        Object.keys(user.readings.BPM[today]).forEach((key) => {
-          if (Number(key.replaceAll(':', '')) > Number(BPM.replaceAll(':', ''))) {
-            setBPM(key)
-          }
-        })
-      }
+      if (user.readings.BPM) {
+        if (user.readings.BPM[today]) {
+          setBPM("")
+          Object.keys(user.readings.BPM[today]).forEach((key) => {
+            if (Number(key.replaceAll(':', '')) > Number(BPM.replaceAll(':', ''))) {
+              setBPM(key)
+            }
+          })
+        }
       
+        if (user.readings.BPM[date]) {
+          setColorsBPM([])
+          Object.keys(user.readings.BPM[date]).forEach((key) => {
+            if (user.readings.BPM[date][key] > 180 || user.readings.BPM[date][key] < 30) {
+              setColorsBPM(colorsBPM => [ ...colorsBPM, 'red' ])
+            } else {
+              setColorsBPM(colorsBPM => [ ...colorsBPM, 'blue' ])
+            }
+          })
+        }
+      }
+    
       if ( user.readings["Room Temp"] && user.readings["Room Temp"][today]) {
         setRoomTemp("")
         Object.keys(user.readings["Room Temp"][today]).forEach((key) => {
@@ -53,13 +68,26 @@ const PatientPageBase = (props) => {
         })
       }
 
-      if ( user.readings["Body Temp"] && user.readings["Body Temp"][today]) {
-        setBodyTemp("")
-        Object.keys(user.readings["Body Temp"][today]).forEach((key) => {
-          if (Number(key.replaceAll(':', '')) > Number(BodyTemp.replaceAll(':', ''))) {
-            setBodyTemp(key)
-          }
-        })
+      if (user.readings["Body Temp"]) {
+        if (user.readings["Body Temp"][today]) {
+          setBodyTemp("")
+          Object.keys(user.readings["Body Temp"][today]).forEach((key) => {
+            if (Number(key.replaceAll(':', '')) > Number(BodyTemp.replaceAll(':', ''))) {
+              setBodyTemp(key)
+            }
+          })
+        }
+      
+        if (user.readings["Body Temp"][date]) {
+          setColorsBodyTemp([])
+          Object.keys(user.readings["Body Temp"][date]).forEach((key) => {
+            if (user.readings["Body Temp"][date][key] > 40 || user.readings["Body Temp"][date][key] < 30) {
+              setColorsBodyTemp(colorsBodyTemp => [ ...colorsBodyTemp, 'red' ])
+            } else {
+              setColorsBodyTemp(colorsBodyTemp => [ ...colorsBodyTemp, 'blue' ])
+            }
+          })
+        }
       }
     }
 
@@ -78,7 +106,7 @@ const PatientPageBase = (props) => {
         setUser(snapshot.val())
         setLoading(false)
       })
-  })
+  }, [date, today])
 
   const onChangeDate = (date) => {
     setDate(formatDate(date))
@@ -122,7 +150,8 @@ const PatientPageBase = (props) => {
                   y: Object.values(user.readings.BPM[date]),
                   type: 'scatter',
                   mode: 'lines+markers',
-                  marker: {color: 'red'},
+                  marker: {color: colorsBPM},
+                  line: { color: 'rgb(92, 131, 150)' }
                 },
               ]}
               layout={ {width: width, height: height, title: 'BPM Plot', margin: { l: 60, r: 30, pad: 4 }} }
@@ -137,7 +166,8 @@ const PatientPageBase = (props) => {
                   y: Object.values(user.readings["Body Temp"][date]),
                   type: 'scatter',
                   mode: 'lines+markers',
-                  marker: {color: 'red'},
+                  marker: {color: colorsBodyTemp},
+                  line: { color: 'rgb(92, 131, 150)' }
                 },
               ]}
               layout={ {width: width, height: height, title: 'Body Temperature Plot', margin: { l: 60, r: 30, pad: 4 }} }
@@ -152,7 +182,8 @@ const PatientPageBase = (props) => {
                   y: Object.values(user.readings.Humidity[date]),
                   type: 'scatter',
                   mode: 'lines+markers',
-                  marker: {color: 'red'},
+                  marker: {color: 'blue'},
+                  line: { color: 'rgb(92, 131, 150)' }
                 },
               ]}
               layout={ {width: width, height: height, title: 'Humidity Plot', margin: { l: 60, r: 30, pad: 4 }} }
@@ -167,7 +198,8 @@ const PatientPageBase = (props) => {
                   y: Object.values(user.readings["Room Temp"][date]),
                   type: 'scatter',
                   mode: 'lines+markers',
-                  marker: {color: 'red'},
+                  marker: {color: 'blue'},
+                  line: { color: 'rgb(92, 131, 150)' }
                 },
               ]}
               layout={ {width: width, height: height, title: 'Room Temperature Plot', margin: { l: 60, r: 30, pad: 4 }} }
