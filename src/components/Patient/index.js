@@ -24,6 +24,7 @@ const PatientPageBase = (props) => {
   const [height, setHeight] = React.useState()
   const [colorsBPM, setColorsBPM] = React.useState("blue")
   const [colorsBodyTemp, setColorsBodyTemp] = React.useState("blue")
+  const [alertMessage, setAlertMessage] = React.useState("")
 
   const setCurrentReadings = (user) => {
     if (today !== formatDate(new Date())) {
@@ -103,6 +104,64 @@ const PatientPageBase = (props) => {
     }
   }
 
+  const setAlerts = (user) => {
+    if (user.readings) {
+      if (user.readings.BPM) {
+        if (user.readings.BPM.Alert === 2) {
+          if (user.readings["Body Temp"]) {
+            if (user.readings["Body Temp"].Alert === 2) {
+              setAlertMessage("Your BPM and Body Temperature are high and you might have Tachycardia or Heat stroke")
+            } else {
+              if (user.readings["Body Temp"].Alert === 1) {
+                setAlertMessage("Your BPM is high and Body Temperature is low and you might have Tachycardia or Hypothermia")
+              } else {
+                setAlertMessage("Your BPM is high and you might have Tachycardia")
+              }
+            }
+          }
+        } else {
+          if (user.readings.BPM.Alert === 1) {
+            if (user.readings["Body Temp"]) {
+              if (user.readings["Body Temp"].Alert === 2) {
+                setAlertMessage("Your BPM is low and Body Temperature is high and you might have Bradycardia or Heat stroke")
+              } else {
+                if (user.readings["Body Temp"].Alert === 1) {
+                  setAlertMessage("Your BPM and Body Temperature are low and you might have Bradycardia or Hypothermia")
+                } else {
+                  setAlertMessage("Your BPM is low and you might have Bradycardia")
+                }
+              }
+            }
+          } else {
+            if (user.readings["Body Temp"]) {
+              if (user.readings["Body Temp"].Alert === 2) {
+                setAlertMessage("Your Body Temperature is high and you might have Heat Stroke")
+              } else {
+                if (user.readings["Body Temp"].Alert === 1) {
+                  setAlertMessage("Your Body Temperature is low and you might have Hypothermia")
+                } else {
+                  setAlertMessage("")
+                }
+              }
+            }
+          }
+        }
+      } else {
+        if (user.readings["Body Temp"]) {
+          if (user.readings["Body Temp"].Alert === 2) {
+            setAlertMessage("Your Body Temperature is high and you might have Heat Stroke")
+          } else {
+            if (user.readings["Body Temp"].Alert === 1) {
+              setAlertMessage("Your Body Temperature is low and you might have Hypothermia")
+            } else {
+              setAlertMessage("")
+            }
+          }
+        }
+      }
+    }
+  }
+
   React.useEffect(() => {
     if (window.innerWidth > 600) {
       setWidth(0.8*window.innerWidth)
@@ -118,6 +177,7 @@ const PatientPageBase = (props) => {
         setUser(snapshot.val())
         setCurrentReadings(snapshot.val())
         setColors(snapshot.val())
+        setAlerts(snapshot.val())
         setLoading(false)
       })
   }, [date])
@@ -131,30 +191,42 @@ const PatientPageBase = (props) => {
     <div className="container patient">
       <br />
       <h1 className="text-center"><b>Patient: { !loading ? user.username : "Loading ..." }</b></h1>
+      
+      <br />
+      { !loading ? (user.readings ? ( alertMessage ? (
+        <p className="alert alert-danger">{alertMessage}</p>
+      ) : null) : null) : null }
+
       <br />
       { !loading ? (user.readings ? (
         <div className="readings">
           <div>
             <h3>Current Readings: </h3>
+            
             <div className="text-center">
               <h5>BPM:</h5>
               <p>{ user.readings.BPM ? (user.readings.BPM[today] ? user.readings.BPM[today][BPM] : "No readings") : "No readings" }</p>
+              
               <h5>Body Temperature:</h5>
               <p>{ user.readings["Room Temp"] ? (user.readings["Room Temp"][today] ? user.readings["Room Temp"][today][RoomTemp] : "No readings") : "No readings" }</p>
+              
               <h5>Humidity:</h5>
               <p>{ user.readings.Humidity ? (user.readings.Humidity[today] ? user.readings.Humidity[today][Humidity] : "No readings") : "No readings" }</p>
+              
               <h5>Room Temperature:</h5>
               <p>{ user.readings["Body Temp"] ? (user.readings["Body Temp"][today] ? user.readings["Body Temp"][today][BodyTemp] : "No readings") : "No readings" }</p>
             </div>
           </div>
         </div>
       ) : user.username+" has no readings.") : "Loading ..." }
+      
       <br />
       { !loading ? (user.readings ? (
         <div className="d-flex flex-column align-items-center">
           <Calendar
             onChange={onChangeDate}
           />
+          
           <br />
           { user.readings.BPM ? (user.readings.BPM[date] ? (
             <Plot
@@ -171,6 +243,7 @@ const PatientPageBase = (props) => {
               layout={ {width: width, height: height, title: 'BPM Plot', margin: { l: 60, r: 30, pad: 4 }} }
             />
           ) : null) : null }
+          
           <br />
           { user.readings["Body Temp"] ? (user.readings["Body Temp"][date] ? (
             <Plot
@@ -187,6 +260,7 @@ const PatientPageBase = (props) => {
               layout={ {width: width, height: height, title: 'Body Temperature Plot', margin: { l: 60, r: 30, pad: 4 }} }
             />
           ) : null) : null }
+          
           <br />
           { user.readings.Humidity ? (user.readings.Humidity[date] ? (
             <Plot
@@ -203,6 +277,7 @@ const PatientPageBase = (props) => {
               layout={ {width: width, height: height, title: 'Humidity Plot', margin: { l: 60, r: 30, pad: 4 }} }
             />
           ) : null) : null }
+          
           <br />
           { user.readings["Room Temp"] ? (user.readings["Room Temp"][date] ? (
             <Plot
@@ -219,9 +294,10 @@ const PatientPageBase = (props) => {
               layout={ {width: width, height: height, title: 'Room Temperature Plot', margin: { l: 60, r: 30, pad: 4 }} }
             />
           ) : null) : null }
+          
           <br />
         </div>
-      ) : user.username+" has no readings.") : "Loading ..." }
+      ) : null) : "Loading ..." }
     </div>
   )
 }
