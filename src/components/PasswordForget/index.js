@@ -56,18 +56,23 @@ class PasswordForgetFormBase extends Component {
     return (
       <div className="d-flex flex-column align-items-center">
         <form onSubmit={this.onSubmit}>
-          <input
-            className="form-control"
-            name="email"
-            value={email}
-            onChange={this.onChange}
-            type="text"
-            placeholder="Email"
-          />
-          <br />
-          <button disabled={isInvalid} type="submit" className="btn btn-primary ml-5 mr-5">
-            Reset Password
-          </button>
+          <div className="d-flex flex-column flex-sm-row align-items-center">
+            <div className="mt-2 ml-2 mr-2">
+              <input
+                className="form-control"
+                name="email"
+                value={email}
+                onChange={this.onChange}
+                type="text"
+                placeholder="Email"
+              />
+            </div>
+            <div className="mt-2 ml-2 mr-2">
+              <button disabled={isInvalid} type="submit" className="btn btn-primary">
+                Reset Password
+              </button>
+            </div>
+          </div>
         </form>
 
         <br />
