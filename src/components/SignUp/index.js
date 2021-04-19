@@ -44,15 +44,14 @@ class SignUpFormBase extends Component {
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then((authUser) => {
-        return this.props.firebase
+        this.props.firebase
           .user(authUser.user.uid)
           .set({
             "username": username,
             "email": email,
             "type": type,
           })
-      })
-      .then((authUser) => {
+        
         this.setState({ ...initialState })
         
         if (type === "Doctor") {
