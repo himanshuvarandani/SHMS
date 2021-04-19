@@ -15,8 +15,7 @@ const AccountPageBase = (props) => {
   React.useEffect(() => {
     props.firebase
       .user(props.match.params.uid)
-      .once("value")
-      .then((snapshot) => {
+      .on("value", (snapshot) => {
         setUsername(snapshot.val().username)
         setLoading(false)
       })

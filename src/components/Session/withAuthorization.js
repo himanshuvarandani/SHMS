@@ -20,8 +20,7 @@ const withAuthorization = (condition) => (Component) => {
           } else if (this.props.match.path === "/doctor/:uid") {
             this.props.firebase
               .user(authUser.uid)
-              .once("value")
-              .then((snapshot) => {
+              .on("value", (snapshot) => {
                 if (snapshot.val()) {
                   if (snapshot.val().type === "Patient") {
                     this.props.history.push(Routes.Error)
@@ -35,8 +34,7 @@ const withAuthorization = (condition) => (Component) => {
           } else if (this.props.match.path === "/patient/:uid") {
             this.props.firebase
               .user(authUser.uid)
-              .once("value")
-              .then((snapshot) => {
+              .on("value", (snapshot) => {
                 if (snapshot.val()) {
                   if (snapshot.val().type === "Doctor") {
                     if (snapshot.val().patients) {

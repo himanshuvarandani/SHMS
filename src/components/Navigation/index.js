@@ -11,8 +11,7 @@ const NavigationAuth = (props) => {
   React.useEffect(() => {
     props.firebase
       .user(props.uid)
-      .once("value")
-      .then((snapshot) => setType(snapshot.val().type))
+      .on("value", (snapshot) => setType(snapshot.val().type))
   })
 
   return (
@@ -23,9 +22,9 @@ const NavigationAuth = (props) => {
         <Nav className="mr-auto">
           { type === "Doctor" ? (
             <Nav.Link href={Routes.Doctor+"/"+props.uid}>Home</Nav.Link>
-          ) : (
+          ) : ( type === "Patient" ? (
             <Nav.Link href={Routes.Patient+"/"+props.uid}>Home</Nav.Link>
-          )}
+          ) : null )}
           <Nav.Link href={Routes.Account+"/"+props.uid}>Account</Nav.Link>
         </Nav>
         <Nav>

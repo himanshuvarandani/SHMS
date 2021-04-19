@@ -173,7 +173,7 @@ const PatientPageBase = (props) => {
     
     props.firebase
       .user(props.match.params.uid)
-      .once("value", (snapshot) => {
+      .on("value", (snapshot) => {
         setUser(snapshot.val())
         setCurrentReadings(snapshot.val())
         setColors(snapshot.val())

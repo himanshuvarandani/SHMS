@@ -19,8 +19,7 @@ const DoctorPageBase = (props) => {
   React.useEffect(() => {
     props.firebase
       .user(props.match.params.uid)
-      .once("value")
-      .then(async (snapshot) => {
+      .on("value", (snapshot) => {
         setUser(snapshot.val())
 
         if (snapshot.val().patients) {
@@ -28,8 +27,7 @@ const DoctorPageBase = (props) => {
           Object.keys(snapshot.val().patients).map((key, idx) =>{
             props.firebase
               .user(key)
-              .once("value")
-              .then((patient) => {
+              .on("value", (patient) => {
                 setPatients((prevPatients) => ({ ...prevPatients, [key]: patient.val()}))
                 if(idx === length-1) {
                   setLoading(false)
@@ -43,6 +41,7 @@ const DoctorPageBase = (props) => {
   }, [loading])
 
   const onSubmit = (event) => {
+    setLoading(true)
     props.firebase
       .users()
       .orderByChild("username")
@@ -60,7 +59,6 @@ const DoctorPageBase = (props) => {
               .update(object)
             
             setUsername("")
-            setLoading(true)
             setError(null)
           } else {
             setError(username + " is not a patient.")
