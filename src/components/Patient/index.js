@@ -110,12 +110,12 @@ const PatientPageBase = (props) => {
         if (user.readings.BPM.Alert === 2) {
           if (user.readings["Body Temp"]) {
             if (user.readings["Body Temp"].Alert === 2) {
-              setAlertMessage("Your BPM and Body Temperature are high and you might have Tachycardia or Heat stroke")
+              setAlertMessage("Your BPM and Body Temperature are high.")
             } else {
               if (user.readings["Body Temp"].Alert === 1) {
-                setAlertMessage("Your BPM is high and Body Temperature is low and you might have Tachycardia or Hypothermia")
+                setAlertMessage("Your BPM is high and Body Temperature is low.")
               } else {
-                setAlertMessage("Your BPM is high and you might have Tachycardia")
+                setAlertMessage("Your BPM is high.")
               }
             }
           }
@@ -123,22 +123,22 @@ const PatientPageBase = (props) => {
           if (user.readings.BPM.Alert === 1) {
             if (user.readings["Body Temp"]) {
               if (user.readings["Body Temp"].Alert === 2) {
-                setAlertMessage("Your BPM is low and Body Temperature is high and you might have Bradycardia or Heat stroke")
+                setAlertMessage("Your BPM is low and Body Temperature is high.")
               } else {
                 if (user.readings["Body Temp"].Alert === 1) {
-                  setAlertMessage("Your BPM and Body Temperature are low and you might have Bradycardia or Hypothermia")
+                  setAlertMessage("Your BPM and Body Temperature are low.")
                 } else {
-                  setAlertMessage("Your BPM is low and you might have Bradycardia")
+                  setAlertMessage("Your BPM is low.")
                 }
               }
             }
           } else {
             if (user.readings["Body Temp"]) {
               if (user.readings["Body Temp"].Alert === 2) {
-                setAlertMessage("Your Body Temperature is high and you might have Heat Stroke")
+                setAlertMessage("Your Body Temperature is high.")
               } else {
                 if (user.readings["Body Temp"].Alert === 1) {
-                  setAlertMessage("Your Body Temperature is low and you might have Hypothermia")
+                  setAlertMessage("Your Body Temperature is low.")
                 } else {
                   setAlertMessage("")
                 }
@@ -149,10 +149,10 @@ const PatientPageBase = (props) => {
       } else {
         if (user.readings["Body Temp"]) {
           if (user.readings["Body Temp"].Alert === 2) {
-            setAlertMessage("Your Body Temperature is high and you might have Heat Stroke")
+            setAlertMessage("Your Body Temperature is high.")
           } else {
             if (user.readings["Body Temp"].Alert === 1) {
-              setAlertMessage("Your Body Temperature is low and you might have Hypothermia")
+              setAlertMessage("Your Body Temperature is low.")
             } else {
               setAlertMessage("")
             }
@@ -194,7 +194,7 @@ const PatientPageBase = (props) => {
       
       <br />
       { !loading ? (user.readings ? ( alertMessage ? (
-        <p className="alert alert-danger">{alertMessage}</p>
+        <p className="alert alert-danger text-center">{alertMessage}</p>
       ) : null) : null) : null }
 
       <br />
