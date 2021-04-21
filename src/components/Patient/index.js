@@ -240,7 +240,7 @@ const PatientPageBase = (props) => {
                   line: { color: 'rgb(92, 131, 150)' }
                 },
               ]}
-              layout={ {width: width, height: height, title: 'BPM Plot', margin: { l: 60, r: 30, pad: 4 }} }
+              layout={ {width: width, height: height, title: 'BPM Plot', margin: { l: 60, r: 30, pad: 4 }, yaxis: {rangemode: "tozero"}} }
             />
           ) : null) : null }
           
