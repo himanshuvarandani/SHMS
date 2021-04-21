@@ -208,13 +208,13 @@ const PatientPageBase = (props) => {
               <p>{ user.readings.BPM ? (user.readings.BPM[today] ? user.readings.BPM[today][BPM] : "No readings") : "No readings" }</p>
               
               <h5>Body Temperature:</h5>
-              <p>{ user.readings["Room Temp"] ? (user.readings["Room Temp"][today] ? user.readings["Room Temp"][today][RoomTemp] : "No readings") : "No readings" }</p>
+              <p>{ user.readings["Body Temp"] ? (user.readings["Body Temp"][today] ? user.readings["Body Temp"][today][BodyTemp] : "No readings") : "No readings" }</p>
               
               <h5>Humidity:</h5>
               <p>{ user.readings.Humidity ? (user.readings.Humidity[today] ? user.readings.Humidity[today][Humidity] : "No readings") : "No readings" }</p>
               
               <h5>Room Temperature:</h5>
-              <p>{ user.readings["Body Temp"] ? (user.readings["Body Temp"][today] ? user.readings["Body Temp"][today][BodyTemp] : "No readings") : "No readings" }</p>
+              <p>{ user.readings["Room Temp"] ? (user.readings["Room Temp"][today] ? user.readings["Room Temp"][today][RoomTemp] : "No readings") : "No readings" }</p>
             </div>
           </div>
         </div>
